@@ -1,6 +1,13 @@
 # powerline_owmweather
 
-A light-hearted Powerline segment for fetching and showing the weather in the current location (either by IP geolocation or by setting a location, see configuration below)
+A light-hearted Powerline segment for fetching and showing the weather in the current location (either by IP geolocation or by setting a location, see [Configuration](#configuration) below)
+
+- [Motivation](#motivation)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Activiation](#activiation)
+- [Configuration](#configuration)
+- [TODO](#todo)
 
 ## Motivation
 
