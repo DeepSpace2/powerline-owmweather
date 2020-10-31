@@ -41,13 +41,14 @@ The built-in weather segment is using Yahoo Weather API which is no longer avail
  
  The following optional `args` are available:
  
- 
 | Argument | Type | Description | Default
 | --- | --- | --- | --- |
 | `location_query` | string | Location in format CITY, 2-LETTERS-COUNTRY-CODE | Retrived using IP geolocation | 
 | `units` | string | Temperature units, should be one of `"C"`, `"F"`, `"K"` | `"C"` |
 | `temp_format` | string | A Python format string that accepts `temp` as an argument | `"{temp:.0f}"` |
 | `ttl_in_minutes` | integer | Time in minutes for which location and weather are cached. <br>**Warning: The lower the value the slower your terminal will be** | 60 |
+
+The highlight group used is `weather_temp`.
 
 # TODO
 
