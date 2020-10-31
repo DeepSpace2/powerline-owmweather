@@ -46,7 +46,7 @@ def _weather(pl, *, openweathermap_api_key, location_query=None, units='C', temp
     return [
             {
                 'contents': temp_format.format(temp=temp) + temp_units_representation[units],
-                'highlight_groups': ['wearher_temp_gradient', 'weather_temp', 'weather'],
+                'highlight_groups': ['weather_temp'],
                 'divider_highlight_group': 'background:divider'
             }
     ]
