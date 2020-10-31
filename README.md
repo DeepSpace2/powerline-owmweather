@@ -7,6 +7,7 @@ A light-hearted Powerline segment for fetching and showing the weather in the cu
 - [Installation](#installation)
 - [Activiation](#activiation)
 - [Configuration](#configuration)
+- [Changelog](#changelog)
 - [TODO](#todo)
 
 ## Motivation
@@ -50,7 +51,12 @@ The built-in weather segment is using Yahoo Weather API which is no longer avail
 
 The highlight group used is `weather_temp`.
 
-# TODO
+## Changelog
+
+### 0.1.0
+Initial release
+
+## TODO
 
  - [ ] Support icons (?)
  - [ ] Support weather description ("cloudy", "windy", etc)
