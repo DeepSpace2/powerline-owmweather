@@ -2,7 +2,9 @@
 [![Downloads](https://static.pepy.tech/personalized-badge/powerline-owmweather?period=week&units=international_system&left_color=black&right_color=blue&left_text=Downloads/Week)](https://pepy.tech/project/powerline-owmweather)
 # powerline_owmweather 🌦
 
-A light-hearted Powerline segment for fetching and showing the weather in the current location (either by IP geolocation or by setting a location, see [Configuration](#configuration) below)
+A light-hearted Powerline segment for fetching and showing the weather in the current location (either by IP geolocation or by setting a location, see [Configuration](#configuration) below).
+
+**Keep in mind that powerline_owmweather is in early, rapid development stage so its API/configuration format may change.**
 
 - [Motivation](#motivation)
 - [Requirements](#requirements)
@@ -79,3 +81,7 @@ Initial release
 
  - [ ] Support icons (?)
  - [ ] Support weather description ("cloudy", "windy", etc)
+ - [ ] Support configurable information to display:
+   - [ ] Wind speed/direction
+   - [ ] Humidity
+   - [ ] Pressure
