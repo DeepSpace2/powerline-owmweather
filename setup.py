@@ -6,7 +6,7 @@ with open('README.md') as f:
 setup(
     name         = 'powerline-owmweather',
     description  = 'A Powerline segment for fetching and showing the weather in the current location',
-    long_description = long_description
+    long_description = long_description,
     version      = '0.1.1',
     keywords     = 'powerline weather segment terminal cli',
     license      = 'MIT',
