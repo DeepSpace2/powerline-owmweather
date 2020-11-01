@@ -7,7 +7,7 @@ setup(
     name         = 'powerline-owmweather',
     description  = 'A Powerline segment for fetching and showing the weather in the current location',
     long_description = long_description,
-    long_description_content_type = 'text/markdown'
+    long_description_content_type = 'text/markdown',
     version      = '0.2',
     keywords     = 'powerline weather segment terminal cli',
     license      = 'MIT',
