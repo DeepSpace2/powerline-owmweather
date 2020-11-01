@@ -47,7 +47,7 @@ and the following to your colorscheme JSON (the colors can be customized):
 ```
 "groups": {
       ...,
-      "weather_temp": {
+      "owmweather": {
           "fg": "gray9",
           "bg": "gray2",
           "attrs": []
@@ -61,14 +61,18 @@ The following optional `args` are available:
  
 | Argument | Type | Description | Default
 | --- | --- | --- | --- |
+| `condition_as_icon` | boolean | If `true`, condition will be displayed as an icon (if one of known conditions).<br>If `false` condition will be displayed as a string | `true` |
 | `location_query` | string | Location in format CITY, 2-LETTERS-COUNTRY-CODE | Retrived using IP geolocation | 
-| `units` | string | Temperature units, should be one of `"C"`, `"F"`, `"K"` | `"C"` |
+| `show `| string | Comma-separated string specifies what data to show.<br>Can include `"condition"`, `"temp"` | `"temp"` |
 | `temp_format` | string | A Python format string that accepts `temp` as an argument | `"{temp:.0f}"` |
-| `ttl_in_minutes` | integer | Time in minutes for which location and weather are cached. <br>**Warning: The lower the value the slower your terminal will be** | 60 |
-
-The highlight group used is `weather_temp`.
+| `ttl_in_minutes` | integer | Time in minutes for which location and weather are cached.<br>**Warning: The lower the value the slower your terminal will be** | 60 |
+| `units` | string | Temperature units.<br>Should be one of `"C"`, `"F"`, `"K"` | `"C"` |
 
 ## Changelog
+
+### 0.2 - Nov. 1 2020
+* Added ability to display temperature, condition and different combinations
+* Added ability to display condition as either icons or strings
 
 ### 0.1.1 - Oct. 31 2020
 * Fixed a bug that prevented setting a custom `ttl_in_minutes`
@@ -79,9 +83,11 @@ Initial release
 
 ## TODO
 
- - [ ] Support icons (?)
- - [ ] Support weather description ("cloudy", "windy", etc)
+ - [x] Support icons
+ - [x] Support weather description ("cloudy", "windy", etc)
  - [ ] Support configurable information to display:
+   - [x] Temperature
+   - [x] Condition
    - [ ] Wind speed/direction
    - [ ] Humidity
    - [ ] Pressure

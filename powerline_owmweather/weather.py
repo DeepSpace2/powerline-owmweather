@@ -20,7 +20,25 @@ temp_units_representation = {
         'K': 'K',
 }
 
+conditions_to_icon = (
+    ('clear', '☀'),
+    ('clouds', '☁'),
+    ('haze|fog|mist', '🌫'),
+    ('rain|drizzle', '🌧'),
+    ('snow', '❄'),
+    ('thunder', '⚡'),
+    ('tornado', '🌪')
+)
+
 state = {'prev_location_query':  None}
+
+
+def _get_icon_for_condition(search_condition):
+    search_condition = search_condition.lower()
+    for condition, icon in conditions_to_icon:
+        if condition in search_condition or search_condition in condition:
+            return icon
+    return search_condition
 
 
 def _fetch_location(pl):
@@ -61,19 +79,26 @@ def _fetch_weather(pl, location_query, units, openweathermap_api_key):
 
 
 @lru_cache()
-def _weather(pl, *, openweathermap_api_key, location_query=None, units='C', temp_format='{temp:.0f}', ttl=None):
+def _weather(pl, *, openweathermap_api_key, location_query=None, units='C', temp_format='{temp:.0f}', show='temp', condition_as_icon=True,
+             ttl=None):
     pl.debug('_weather called with arguments {0}', locals())
     location_query = location_query or _fetch_location(pl)    
     pl.debug('Fetching weather for {0}', location_query)
     weather_dict = _fetch_weather(pl, location_query, units, openweathermap_api_key)
     if weather_dict:
-        return [
-                {
-                    'contents': temp_format.format(temp=weather_dict['temp']) + temp_units_representation[units],
-                    'highlight_groups': ['weather_temp'],
-                    'divider_highlight_group': 'background:divider'
-                }
-        ]
+        condition = weather_dict['condition']
+        data_to_content_format = {
+                                'temp': lambda: ' ' + temp_format.format(temp=weather_dict[data_to_show]) + temp_units_representation[units],
+                                'condition': lambda: ' ' + (_get_icon_for_condition(condition) if condition_as_icon else condition)
+                            }
+        segments = []
+        for data_to_show in map(str.strip, show.split(',')):
+            segments.append({
+                'contents': data_to_content_format[data_to_show](),
+                'highlight_groups': ['owmweather_{}'.format(data_to_show), 'owmweather'],
+                'divider_highlight_group': 'background:divider'
+            })
+        return segments
 
 
 def weather(*args, **kwargs):
