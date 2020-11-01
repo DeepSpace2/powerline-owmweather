@@ -21,28 +21,41 @@ The built-in weather segment is using Yahoo Weather API which is no longer avail
  - [Powerline](https://github.com/powerline/powerline)
  - A (free) [OpenWeather](https://openweathermap.org/) account and API key with the "Current Weather Data" plan enabled.
  
- ## Installation
+## Installation
  
- ```
- pip install powerline-owmweather
- ```
+```
+pip install powerline-owmweather
+```
+
+## Activiation
  
- ## Activiation
+The very minimum required to activate the segment is to add the following to your theme JSON:
  
- The very minimum required to activate the segment is to add the following to `.config/powerline/themes/shell/default.json`:
+```
+{
+   "function": "powerline_owmweather.weather",
+   "args": {
+       "openweathermap_api_key": API_KEY
+   }
+}
+```
  
- ```
- {
-    "function": "powerline_owmweather.weather",
-    "args": {
-        "openweathermap_api_key": API_KEY
+and the following to your colorscheme JSON (the colors can be customized):
+ 
+```
+"groups": {
+      ...,
+      "weather_temp": {
+          "fg": "gray9",
+          "bg": "gray2",
+          "attrs": []
     }
- }
- ```
+}
+```
  
- ## Configuration
+## Configuration
  
- The following optional `args` are available:
+The following optional `args` are available:
  
 | Argument | Type | Description | Default
 | --- | --- | --- | --- |
