@@ -10,7 +10,7 @@ A light-hearted Powerline segment for fetching and showing the weather in the cu
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Activiation](#activiation)
-- [Configuration](#configuration)
+- [Configuration and Customization](#configuration-and-customization)
 - [Changelog](#changelog)
 - [TODO](#todo)
 
@@ -55,7 +55,7 @@ and the following to your colorscheme JSON (the colors can be customized):
 }
 ```
  
-## Configuration
+## Configuration and Customization
  
 The following optional `args` are available:
  
@@ -63,15 +63,35 @@ The following optional `args` are available:
 | --- | --- | --- | --- |
 | `condition_as_icon` | boolean | If `true`, condition will be displayed as an icon (if one of known conditions).<br>If `false` condition will be displayed as a string | `true` |
 | `location_query` | string | Location in format CITY, 2-LETTERS-COUNTRY-CODE | Retrived using IP geolocation | 
-| `show `| string | Comma-separated string specifies what data to show.<br>Can include `"condition"`, `"temp"` | `"temp"` |
+| `show `| string | Comma-separated string specifies what data to show.<br>Can include `"condition"`, `"temp"`.<br>See [Highlight Groups](#highlight-groups) | `"temp"` |
 | `temp_format` | string | A Python format string that accepts `temp` as an argument | `"{temp:.0f}"` |
 | `ttl_in_minutes` | integer | Time in minutes for which location and weather are cached.<br>**Warning: The lower the value the slower your terminal will be** | 60 |
 | `units` | string | Temperature units.<br>Should be one of `"C"`, `"F"`, `"K"` | `"C"` |
 
+### Highlight Groups
+
+Every data in `"show"` is displayed in its own segment with its own highlight group, meaning it can be styled independently in your colorscheme JSON. Each highlight group is composed of `owmweather_{data_name}`, for example:
+
+```
+"owmweather_condition": {
+    "fg": "gray6",
+    "bg": "gray3",
+    "attrs": []
+},
+"owmweather_temp": {
+    "fg": "gray9",
+    "bg": "gray2",
+    "attrs": []
+}
+```
+
+If a specific highlight group is not defined then the style of `"owmweather"` group will be used.
+
+
 ## Changelog
 
 ### 0.2 - Nov. 1 2020
-* Added ability to display temperature, condition and different combinations
+* Added ability to display temperature, condition
 * Added ability to display condition as either icons or strings
 
 ### 0.1.1 - Oct. 31 2020
