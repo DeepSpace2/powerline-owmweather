@@ -71,7 +71,8 @@ def _fetch_weather(pl, location_query, units, openweathermap_api_key):
         weather_json = json.loads(raw_response)
         return {
             'condition': weather_json['weather'][0]['main'].lower(),
-            'temp': float(weather_json['main']['temp']) 
+            'humidity': float(weather_json['main']['humidity']),
+            'temp': float(weather_json['main']['temp'])
             }
     except (json.decoder.JSONDecodeError, KeyError, TypeError):
         pl.error('openweathermap returned malformed or unexpected response: {0}', raw_response)
@@ -79,25 +80,38 @@ def _fetch_weather(pl, location_query, units, openweathermap_api_key):
 
 
 @lru_cache()
-def _weather(pl, *, openweathermap_api_key, location_query=None, units='C', temp_format='{temp:.0f}', show='temp', condition_as_icon=True,
-             ttl=None):
+def _weather(pl, *, openweathermap_api_key,
+                    condition_as_icon=True,
+                    humidity_format='{humidity:.0f}%',
+                    location_query=None,
+                    show='temp',
+                    temp_format='{temp:.0f}',
+                    ttl=None,
+                    units='C'):
     pl.debug('_weather called with arguments {0}', locals())
     location_query = location_query or _fetch_location(pl)    
     pl.debug('Fetching weather for {0}', location_query)
     weather_dict = _fetch_weather(pl, location_query, units, openweathermap_api_key)
+    pl.debug('Parsed weather dict {0}', weather_dict)
     if weather_dict:
         condition = weather_dict['condition']
         data_to_content_format = {
-                                'temp': lambda: ' ' + temp_format.format(temp=weather_dict[data_to_show]) + temp_units_representation[units],
-                                'condition': lambda: ' ' + (_get_icon_for_condition(condition) if condition_as_icon else condition)
+                                'condition': lambda: ' ' + (_get_icon_for_condition(condition) if condition_as_icon else condition),
+                                'humidity': lambda: ' ' + humidity_format.format(humidity=weather_dict[data_to_show]),
+                                'temp': lambda: ' ' + temp_format.format(temp=weather_dict[data_to_show]) + temp_units_representation[units]
                             }
         segments = []
         for data_to_show in map(str.strip, show.split(',')):
-            segments.append({
-                'contents': data_to_content_format[data_to_show](),
-                'highlight_groups': ['owmweather_{}'.format(data_to_show), 'owmweather'],
-                'divider_highlight_group': 'background:divider'
-            })
+            try:
+                segment = {
+                    'contents': data_to_content_format[data_to_show](),
+                    'highlight_groups': ['owmweather_{}'.format(data_to_show), 'owmweather'],
+                    'divider_highlight_group': 'background:divider'
+                }
+                pl.debug('Adding segment {0} for {1}', segment, data_to_show)
+                segments.append(segment)
+            except KeyError:
+                pl.error('Got invalid data_to_show {0}, ignoring it.', data_to_show)
         return segments
 
 

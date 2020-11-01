@@ -8,7 +8,7 @@ setup(
     description  = 'A Powerline segment for fetching and showing the weather in the current location',
     long_description = long_description,
     long_description_content_type = 'text/markdown',
-    version      = '0.2',
+    version      = '0.3',
     keywords     = 'powerline weather segment terminal cli',
     license      = 'MIT',
     author       = 'DeepSpace2',
