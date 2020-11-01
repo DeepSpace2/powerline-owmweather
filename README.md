@@ -53,7 +53,11 @@ The highlight group used is `weather_temp`.
 
 ## Changelog
 
-### 0.1.0
+### 0.1.1 - Oct. 31 2020
+* Fixed a bug that prevented setting a custom `ttl_in_minutes`
+* Added debug logs
+
+### 0.1.0 - Oct. 31 2020
 Initial release
 
 ## TODO

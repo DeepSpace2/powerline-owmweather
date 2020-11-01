@@ -22,10 +22,12 @@ temp_units_representation = {
 
 @lru_cache()
 def _weather(pl, *, openweathermap_api_key, location_query=None, units='C', temp_format='{temp:.0f}', **kwargs):
+    pl.debug('Called _weather')
     if not location_query:
+        pl.debug('Fetching location')
         location_data = json.loads(urllib_read('https://ipapi.co/json'))
         location_query = '{}, {}'.format(location_data['city'], location_data['country_code'])
-
+    pl.debug('Fetching weather for {}'.format(location_query))
     weather_url = 'https://api.openweathermap.org/data/2.5/weather?q={}&units={}&appid={}'.format(urllib.parse.quote(location_query), temp_units_names.get(units, 'metric'), openweathermap_api_key)
     raw_response = urllib_read(weather_url)
     # print(raw_response)
@@ -52,4 +54,10 @@ def _weather(pl, *, openweathermap_api_key, location_query=None, units='C', temp
     ]
 
 def weather(*args, **kwargs):
-    return _weather(*args, ttl_in_minutes=time.time() // (kwargs.get('ttl_in_minutes', 60) * 60), **kwargs)
+    try:
+        ttl_in_minutes = kwargs.pop('ttl_in_minutes')
+    except KeyError:
+        ttl_in_minutes = 60
+    if ttl_in_minutes == 0:
+        return _weather(*args, ttl=time.time(), **kwargs)
+    return _weather(*args, ttl=time.time() // (ttl_in_minutes * 60), **kwargs)

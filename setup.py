@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name         = 'powerline-owmweather',
     description  = 'A Powerline segment for fetching and showing the weather in the current location',
-    version      = '0.1.0',
+    version      = '0.1.1',
     keywords     = 'powerline weather segment terminal cli',
     license      = 'MIT',
     author       = 'DeepSpace2',
