@@ -4,7 +4,7 @@
 
 ![Example 1](readme-images/screenshot1.png?raw=true)
 
-A light-hearted Powerline segment for fetching and showing the weather in the current location (either by IP geolocation or by setting a location, see [Configuration](#configuration) below).
+A light-hearted [Powerline](https://github.com/powerline/powerline) segment for fetching and showing the weather in the current location (either by IP geolocation or by setting a location, see [Configuration](#configuration) below).
 
 **Keep in mind that powerline_owmweather is in early, rapid development stage so its API/configuration format may change.**
 
