@@ -1,6 +1,6 @@
 ![PyPI](https://img.shields.io/pypi/v/powerline-owmweather?color=blue&logo=python&logoColor=green&style=plastic)
 [![Downloads](https://static.pepy.tech/personalized-badge/powerline-owmweather?period=week&units=international_system&left_color=black&right_color=blue&left_text=Downloads/Week)](https://pepy.tech/project/powerline-owmweather)
-# powerline_owmweather 🌦
+# powerline-owmweather 🌦
 
 ![Example 1](readme-images/screenshot1.png?raw=true)
 
