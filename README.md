@@ -104,8 +104,8 @@ If a specific highlight group is not defined then the style of `"owmweather"` gr
 ## Changelog
 
 ### 0.4 - Nov. 3 2020
-* '%' is no longer in the default humidity_format
-* Added pre_data and post_data arguments and highlight groups
+* `'%'` is no longer in the default `humidity_format`
+* Added `pre_data` and `post_data` arguments and highlight groups
 * Added ability to show location
 
 ### 0.3 - Nov. 1 2020
