@@ -1,4 +1,4 @@
-![PyPI](https://img.shields.io/pypi/v/powerline-owmweather?color=blue&logo=python&logoColor=green&style=plastic)
+[![PyPI](https://img.shields.io/pypi/v/powerline-owmweather?color=blue&logo=python&logoColor=green&style=plastic)](https://pypi.org/project/powerline-owmweather/)
 [![Downloads](http://pepy.tech/badge/powerline-owmweather)](http://pepy.tech/count/powerline-owmweather)
 
 # powerline-owmweather 🌦
