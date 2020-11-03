@@ -82,12 +82,21 @@ def _fetch_weather(pl, location_query, units, openweathermap_api_key):
 @lru_cache()
 def _weather(pl, *, openweathermap_api_key,
                     condition_as_icon=True,
-                    humidity_format='{humidity:.0f}%',
+                    humidity_format='{humidity:.0f}',
                     location_query=None,
+                    post_condition='',
+                    post_humidity='',
+                    post_location='',
+                    post_temp= '',
+                    pre_condition=' ',
+                    pre_humidity=' ',
+                    pre_location=' ',
+                    pre_temp=' ',
                     show='temp',
                     temp_format='{temp:.0f}',
                     ttl=None,
-                    units='C'):
+                    units='C',
+                    **kwargs):
     pl.debug('_weather called with arguments {0}', locals())
     location_query = location_query or _fetch_location(pl)    
     pl.debug('Fetching weather for {0}', location_query)
@@ -95,21 +104,53 @@ def _weather(pl, *, openweathermap_api_key,
     pl.debug('Parsed weather dict {0}', weather_dict)
     if weather_dict:
         condition = weather_dict['condition']
-        data_to_content_format = {
-                                'condition': lambda: ' ' + (_get_icon_for_condition(condition) if condition_as_icon else condition),
-                                'humidity': lambda: ' ' + humidity_format.format(humidity=weather_dict[data_to_show]),
-                                'temp': lambda: ' ' + temp_format.format(temp=weather_dict[data_to_show]) + temp_units_representation[units]
+        data_to_content = {
+                                'condition': {
+                                    'pre': pre_condition, 
+                                    'post': post_condition,
+                                    'content': lambda: (_get_icon_for_condition(condition) if condition_as_icon else condition)
+                                    },
+                                'humidity': {
+                                    'pre': pre_humidity, 
+                                    'post': post_humidity,
+                                    'content': lambda: humidity_format.format(humidity=weather_dict[data_to_show])
+                                    },
+                                'location': {
+                                    'pre': pre_location, 
+                                    'post': post_location,
+                                    'content': lambda: location_query
+                                    },
+                                'temp': {
+                                    'pre': pre_temp, 
+                                    'post': post_temp,
+                                    'content': lambda: temp_format.format(temp=weather_dict[data_to_show]) + temp_units_representation[units]
+                                    }
                             }
         segments = []
         for data_to_show in map(str.strip, show.split(',')):
             try:
+                data = data_to_content[data_to_show]
+                segments.append(
+                    {
+                        'contents': data['pre'],
+                        'highlight_groups': ['owmweather_pre_{}'.format(data_to_show), 'owmweather_{}'.format(data_to_show), 'owmweather'],
+                        'divider_highlight_group': 'background:divider'
+                    }
+                )
                 segment = {
-                    'contents': data_to_content_format[data_to_show](),
+                    'contents': data['content'](),
                     'highlight_groups': ['owmweather_{}'.format(data_to_show), 'owmweather'],
                     'divider_highlight_group': 'background:divider'
                 }
                 pl.debug('Adding segment {0} for {1}', segment, data_to_show)
                 segments.append(segment)
+                segments.append(
+                    {
+                        'contents': data['post'],
+                        'highlight_groups': ['owmweather_post_{}'.format(data_to_show), 'owmweather_{}'.format(data_to_show), 'owmweather'],
+                        'divider_highlight_group': 'background:divider'
+                    }
+                )
             except KeyError:
                 pl.error('Got invalid data_to_show {0}, ignoring it.', data_to_show)
         return segments

@@ -63,10 +63,18 @@ The following optional `args` are available:
  
 | Argument | Type | Description | Default
 | --- | --- | --- | --- |
+| `post_condition` | string | String to append after `condition` | "" |
+| `post_humidity` | string | String to append after `humidity` | "" |
+| `post_location` | string | String to append after `location` | "" |
+| `post_temp` | string | String to append after `temp` | "" |
+| `pre_condition` | string | String to prepend before `condition` | " " |
+| `pre_humidity` | string | String to prepend before `humidity` | " " |
+| `pre_location` | string | String to prepend before `location` | " " |
+| `pre_temp` | string | String to prepend before `temp` | " " |
 | `condition_as_icon` | boolean | If `true`, condition will be displayed as an icon (if one of known conditions).<br>If `false` condition will be displayed as a string | `true` |
-| `humidity_format` | string | A Python format string that accepts `humidity` as an argument | `"{humidity:.0f}%"` |
+| `humidity_format` | string | A Python format string that accepts `humidity` as an argument | `"{humidity:.0f}"` |
 | `location_query` | string | Location in format CITY, 2-LETTERS-COUNTRY-CODE | Retrived using IP geolocation | 
-| `show `| string | Comma-separated string specifies what data to show.<br>Can include `"condition"`, `"humidity"`, `"temp"`.<br>See [Highlight Groups](#highlight-groups) | `"temp"` |
+| `show `| string | Comma-separated string specifies what data to show.<br>Can include `"condition"`, `"humidity"`, `"location"`, `"temp"`.<br>See [Highlight Groups](#highlight-groups) | `"temp"` |
 | `temp_format` | string | A Python format string that accepts `temp` as an argument | `"{temp:.0f}"` |
 | `ttl_in_minutes` | integer | Time in minutes for which location and weather are cached.<br>**Warning: The lower the value the slower your terminal will be** | 60 |
 | `units` | string | Temperature units.<br>Should be one of `"C"`, `"F"`, `"K"` | `"C"` |
@@ -87,6 +95,8 @@ Every data in `"show"` is displayed in its own segment with its own highlight gr
     "attrs": []
 }
 ```
+
+`"pre_{data_name}"` and `"post_{data_name}"` can also be customized using `"owmweather_pre_{data_name}"` and `"owmweather_post_{data_name}"` highlight groups.
 
 If a specific highlight group is not defined then the style of `"owmweather"` group will be used.
 
