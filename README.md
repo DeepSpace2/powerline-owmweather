@@ -64,6 +64,9 @@ The following optional `args` are available:
  
 | Argument | Type | Description | Default
 | --- | --- | --- | --- |
+| `condition_as_icon` | boolean | If `true`, condition will be displayed as an icon (if one of known conditions).<br>If `false` condition will be displayed as a string | `true` |
+| `humidity_format` | string | A Python format string that accepts `humidity` as an argument | `"{humidity:.0f}"` |
+| `location_query` | string | Location in format CITY, 2-LETTERS-COUNTRY-CODE | Retrived using IP geolocation | 
 | `post_condition` | string | String to append after `condition` | "" |
 | `post_humidity` | string | String to append after `humidity` | "" |
 | `post_location` | string | String to append after `location` | "" |
@@ -72,9 +75,6 @@ The following optional `args` are available:
 | `pre_humidity` | string | String to prepend before `humidity` | " " |
 | `pre_location` | string | String to prepend before `location` | " " |
 | `pre_temp` | string | String to prepend before `temp` | " " |
-| `condition_as_icon` | boolean | If `true`, condition will be displayed as an icon (if one of known conditions).<br>If `false` condition will be displayed as a string | `true` |
-| `humidity_format` | string | A Python format string that accepts `humidity` as an argument | `"{humidity:.0f}"` |
-| `location_query` | string | Location in format CITY, 2-LETTERS-COUNTRY-CODE | Retrived using IP geolocation | 
 | `show `| string | Comma-separated string specifies what data to show.<br>Can include `"condition"`, `"humidity"`, `"location"`, `"temp"`.<br>See [Highlight Groups](#highlight-groups) | `"temp"` |
 | `temp_format` | string | A Python format string that accepts `temp` as an argument | `"{temp:.0f}"` |
 | `ttl_in_minutes` | integer | Time in minutes for which location and weather are cached.<br>**Warning: The lower the value the slower your terminal will be** | 60 |
