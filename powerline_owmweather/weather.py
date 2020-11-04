@@ -6,7 +6,7 @@ from functools import lru_cache
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 
-from powerline.lib.url import urllib_read, urllib_urlencode
+from powerline.lib.url import urllib_read
 
 temp_units_names = {
     'C': 'metric',
@@ -15,22 +15,22 @@ temp_units_names = {
 }
 
 temp_units_representation = {
-        'C': '°C',
-        'F': '°F',
-        'K': 'K',
+    'C': '°C',
+    'F': '°F',
+    'K': 'K',
 }
 
 conditions_to_icon = (
-    ('clear', '☀'),
-    ('clouds', '☁'),
-    ('haze|fog|mist', '🌫'),
-    ('rain|drizzle', '🌧'),
-    ('snow', '❄'),
+    ('clear', '☀️'),
+    ('clouds', '☁️'),
+    ('haze|fog|mist', '🌫️'),
+    ('rain|drizzle', '🌧️'),
+    ('snow', '❄️'),
     ('thunder', '⚡'),
-    ('tornado', '🌪')
+    ('tornado', '🌪️')
 )
 
-state = {'prev_location_query':  None}
+state = {'prev_location_query': None}
 
 
 def _get_icon_for_condition(search_condition):
@@ -59,9 +59,10 @@ def _fetch_location(pl):
 
 
 def _fetch_weather(pl, location_query, units, openweathermap_api_key):
-    weather_url = 'https://api.openweathermap.org/data/2.5/weather?q={}&units={}&appid={}'.format(urllib.parse.quote(location_query),
-                                                                                                  temp_units_names.get(units, 'metric'),
-                                                                                                  openweathermap_api_key)
+    weather_url = 'https://api.openweathermap.org/data/2.5/weather?q={}&units={}&appid={}'.format(
+        urllib.parse.quote(location_query),
+        temp_units_names.get(units, 'metric'),
+        openweathermap_api_key)
     raw_response = urllib_read(weather_url)
     if not raw_response:
         pl.error('Failed to get response')
@@ -73,7 +74,7 @@ def _fetch_weather(pl, location_query, units, openweathermap_api_key):
             'condition': weather_json['weather'][0]['main'].lower(),
             'humidity': float(weather_json['main']['humidity']),
             'temp': float(weather_json['main']['temp'])
-            }
+        }
     except (json.decoder.JSONDecodeError, KeyError, TypeError):
         pl.error('openweathermap returned malformed or unexpected response: {0}', raw_response)
         return None
@@ -81,51 +82,51 @@ def _fetch_weather(pl, location_query, units, openweathermap_api_key):
 
 @lru_cache()
 def _weather(pl, *, openweathermap_api_key,
-                    condition_as_icon=True,
-                    humidity_format='{humidity:.0f}',
-                    location_query=None,
-                    post_condition='',
-                    post_humidity='',
-                    post_location='',
-                    post_temp= '',
-                    pre_condition=' ',
-                    pre_humidity=' ',
-                    pre_location=' ',
-                    pre_temp=' ',
-                    show='temp',
-                    temp_format='{temp:.0f}',
-                    ttl=None,
-                    units='C',
-                    **kwargs):
+             condition_as_icon=True,
+             humidity_format='{humidity:.0f}',
+             location_query=None,
+             post_condition='',
+             post_humidity='',
+             post_location='',
+             post_temp='',
+             pre_condition=' ',
+             pre_humidity=' ',
+             pre_location=' ',
+             pre_temp=' ',
+             show='temp',
+             temp_format='{temp:.0f}',
+             ttl=None,
+             units='C',
+             **kwargs):
     pl.debug('_weather called with arguments {0}', locals())
-    location_query = location_query or _fetch_location(pl)    
+    location_query = location_query or _fetch_location(pl)
     pl.debug('Fetching weather for {0}', location_query)
     weather_dict = _fetch_weather(pl, location_query, units, openweathermap_api_key)
     pl.debug('Parsed weather dict {0}', weather_dict)
     if weather_dict:
         condition = weather_dict['condition']
         data_to_content = {
-                                'condition': {
-                                    'pre': pre_condition, 
-                                    'post': post_condition,
-                                    'content': lambda: (_get_icon_for_condition(condition) if condition_as_icon else condition)
-                                    },
-                                'humidity': {
-                                    'pre': pre_humidity, 
-                                    'post': post_humidity,
-                                    'content': lambda: humidity_format.format(humidity=weather_dict[data_to_show])
-                                    },
-                                'location': {
-                                    'pre': pre_location, 
-                                    'post': post_location,
-                                    'content': lambda: location_query
-                                    },
-                                'temp': {
-                                    'pre': pre_temp, 
-                                    'post': post_temp,
-                                    'content': lambda: temp_format.format(temp=weather_dict[data_to_show]) + temp_units_representation[units]
-                                    }
-                            }
+            'condition': {
+                'pre': pre_condition,
+                'post': post_condition,
+                'content': lambda: (_get_icon_for_condition(condition) if condition_as_icon else condition)
+            },
+            'humidity': {
+                'pre': pre_humidity,
+                'post': post_humidity,
+                'content': lambda: humidity_format.format(humidity=weather_dict[data_to_show])
+            },
+            'location': {
+                'pre': pre_location,
+                'post': post_location,
+                'content': lambda: location_query
+            },
+            'temp': {
+                'pre': pre_temp,
+                'post': post_temp,
+                'content': lambda: temp_format.format(temp=weather_dict[data_to_show]) + temp_units_representation[units]
+            }
+        }
         segments = []
         for data_to_show in map(str.strip, show.split(',')):
             try:
@@ -133,13 +134,20 @@ def _weather(pl, *, openweathermap_api_key,
                 segments.append(
                     {
                         'contents': data['pre'],
-                        'highlight_groups': ['owmweather_pre_{}'.format(data_to_show), 'owmweather_{}'.format(data_to_show), 'owmweather'],
+                        'highlight_groups': [
+                            'owmweather_pre_{}'.format(data_to_show),
+                            'owmweather_{}'.format(data_to_show),
+                            'owmweather'
+                        ],
                         'divider_highlight_group': 'background:divider'
                     }
                 )
                 segment = {
                     'contents': data['content'](),
-                    'highlight_groups': ['owmweather_{}'.format(data_to_show), 'owmweather'],
+                    'highlight_groups': [
+                        'owmweather_{}'.format(data_to_show),
+                        'owmweather'
+                    ],
                     'divider_highlight_group': 'background:divider'
                 }
                 pl.debug('Adding segment {0} for {1}', segment, data_to_show)
@@ -147,7 +155,11 @@ def _weather(pl, *, openweathermap_api_key,
                 segments.append(
                     {
                         'contents': data['post'],
-                        'highlight_groups': ['owmweather_post_{}'.format(data_to_show), 'owmweather_{}'.format(data_to_show), 'owmweather'],
+                        'highlight_groups': [
+                            'owmweather_post_{}'.format(data_to_show),
+                            'owmweather_{}'.format(data_to_show),
+                            'owmweather'
+                        ],
                         'divider_highlight_group': 'background:divider'
                     }
                 )
