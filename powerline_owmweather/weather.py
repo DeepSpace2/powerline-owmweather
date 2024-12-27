@@ -1,4 +1,5 @@
 import json
+import os
 import urllib.parse
 import time
 
@@ -7,6 +8,8 @@ from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 
 from powerline.lib.url import urllib_read
+
+OPENWEATHERMAP_API_KEY = os.getenv('OPENWEATHERMAP_API_KEY')
 
 temp_units_names = {
     'C': 'metric',
@@ -81,7 +84,7 @@ def _fetch_weather(pl, location_query, units, openweathermap_api_key):
 
 
 @lru_cache()
-def _weather(pl, *, openweathermap_api_key,
+def _weather(pl, *, openweathermap_api_key=OPENWEATHERMAP_API_KEY,
              condition_as_icon=True,
              humidity_format='{humidity:.0f}',
              location_query=None,

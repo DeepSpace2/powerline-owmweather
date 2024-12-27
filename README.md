@@ -64,6 +64,7 @@ The following optional `args` are available:
  
 | Argument | Type | Description | Default
 | --- | --- | --- | --- |
+| `openweathermap_api_key` | string | If not provided in the theme JSON, the segment will try to use the `OPENWEATHERMAP_API_KEY` environment variable | `os.getenv("OPENWEATHERMAP_API_KEY")` |
 | `condition_as_icon` | boolean | If `true`, condition will be displayed as an icon (if one of known conditions).<br>If `false` condition will be displayed as a string | `true` |
 | `humidity_format` | string | A Python format string that accepts `humidity` as an argument | `"{humidity:.0f}"` |
 | `location_query` | string | Location in format CITY, 2-LETTERS-COUNTRY-CODE | Retrived using IP geolocation | 
