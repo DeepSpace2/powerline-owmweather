@@ -7,12 +7,11 @@
 
 A light-hearted [Powerline](https://github.com/powerline/powerline) segment for fetching and showing the weather in the current location (either by IP geolocation or by setting a location, see [Configuration](#configuration) below).
 
-**Keep in mind that powerline_owmweather is in early, rapid development stage so its API/configuration format may change.**
 
 - [Motivation](#motivation)
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Activiation](#activiation)
+- [Activation](#activiation)
 - [Configuration and Customization](#configuration-and-customization)
 - [Changelog](#changelog)
 - [TODO](#todo)
@@ -32,7 +31,7 @@ The built-in weather segment is using Yahoo Weather API which is no longer avail
 pip install powerline-owmweather
 ```
 
-## Activiation
+## Activation
  
 The very minimum required to activate the segment is to add the following to your theme JSON:
  
@@ -44,7 +43,10 @@ The very minimum required to activate the segment is to add the following to you
    }
 }
 ```
- 
+
+Alternatively, the API key can also be provided by setting it as an environment variable,
+see [Configuration and Customization](#configuration-and-customization) for details. 
+
 and the following to your colorscheme JSON (the colors can be customized):
  
 ```
@@ -62,24 +64,24 @@ and the following to your colorscheme JSON (the colors can be customized):
  
 The following optional `args` are available:
  
-| Argument | Type | Description | Default
-| --- | --- | --- | --- |
-| `openweathermap_api_key` | string | If not provided in the theme JSON, the segment will try to use the `OPENWEATHERMAP_API_KEY` environment variable | `os.getenv("OPENWEATHERMAP_API_KEY")` |
-| `condition_as_icon` | boolean | If `true`, condition will be displayed as an icon (if one of known conditions).<br>If `false` condition will be displayed as a string | `true` |
-| `humidity_format` | string | A Python format string that accepts `humidity` as an argument | `"{humidity:.0f}"` |
-| `location_query` | string | Location in format CITY, 2-LETTERS-COUNTRY-CODE | Retrived using IP geolocation | 
-| `post_condition` | string | String to append after `condition` | "" |
-| `post_humidity` | string | String to append after `humidity` | "" |
-| `post_location` | string | String to append after `location` | "" |
-| `post_temp` | string | String to append after `temp` | "" |
-| `pre_condition` | string | String to prepend before `condition` | " " |
-| `pre_humidity` | string | String to prepend before `humidity` | " " |
-| `pre_location` | string | String to prepend before `location` | " " |
-| `pre_temp` | string | String to prepend before `temp` | " " |
-| `show `| string | Comma-separated string specifies what data to show.<br>Can include `"condition"`, `"humidity"`, `"location"`, `"temp"`.<br>See [Highlight Groups](#highlight-groups) | `"temp"` |
-| `temp_format` | string | A Python format string that accepts `temp` as an argument | `"{temp:.0f}"` |
-| `ttl_in_minutes` | integer | Time in minutes for which location and weather are cached.<br>**Warning: The lower the value the slower your terminal will be** | 60 |
-| `units` | string | Temperature units.<br>Should be one of `"C"`, `"F"`, `"K"` | `"C"` |
+| Argument                 | Type    | Description                                                                                                                                                          | Default                                                      |
+|--------------------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|
+| `openweathermap_api_key` | string  | If not provided in the theme JSON, the segment will try to use the `POWERLINE_OPENWEATHERMAP_API_KEY` environment variable                                           | `POWERLINE_OPENWEATHERMAP_API_KEY` <br/>environment variable |
+| `condition_as_icon`      | boolean | If `true`, condition will be displayed as an icon (if one of known conditions).<br>If `false` condition will be displayed as a string                                | `true`                                                       |
+| `humidity_format`        | string  | A Python format string that accepts `humidity` as an argument                                                                                                        | `"{humidity:.0f}"`                                           |
+| `location_query`         | string  | Location in format CITY, 2-LETTERS-COUNTRY-CODE                                                                                                                      | Retrived using IP geolocation                                | 
+| `post_condition`         | string  | String to append after `condition`                                                                                                                                   | ""                                                           |
+| `post_humidity`          | string  | String to append after `humidity`                                                                                                                                    | ""                                                           |
+| `post_location`          | string  | String to append after `location`                                                                                                                                    | ""                                                           |
+| `post_temp`              | string  | String to append after `temp`                                                                                                                                        | ""                                                           |
+| `pre_condition`          | string  | String to prepend before `condition`                                                                                                                                 | " "                                                          |
+| `pre_humidity`           | string  | String to prepend before `humidity`                                                                                                                                  | " "                                                          |
+| `pre_location`           | string  | String to prepend before `location`                                                                                                                                  | " "                                                          |
+| `pre_temp`               | string  | String to prepend before `temp`                                                                                                                                      | " "                                                          |
+| `show `                  | string  | Comma-separated string specifies what data to show.<br>Can include `"condition"`, `"humidity"`, `"location"`, `"temp"`.<br>See [Highlight Groups](#highlight-groups) | `"temp"`                                                     |
+| `temp_format`            | string  | A Python format string that accepts `temp` as an argument                                                                                                            | `"{temp:.0f}"`                                               |
+| `ttl_in_minutes`         | integer | Time in minutes for which location and weather are cached.<br>**Warning: The lower the value the slower your terminal will be**                                      | 60                                                           |
+| `units`                  | string  | Temperature units.<br>Should be one of `"C"`, `"F"`, `"K"`                                                                                                           | `"C"`                                                        |
 
 ### Highlight Groups
 
@@ -103,6 +105,9 @@ Every data in `"show"` is displayed in its own segment with its own highlight gr
 If a specific highlight group is not defined then the style of `"owmweather"` group will be used.
 
 ## Changelog
+
+### 0.5 - Dec. 27 2024
+* Allowing to set openweathermap API key as an environment variable
 
 ### 0.4 - Nov. 3 2020
 * `'%'` is no longer in the default `humidity_format`

@@ -9,7 +9,7 @@ from urllib.error import HTTPError
 
 from powerline.lib.url import urllib_read
 
-OPENWEATHERMAP_API_KEY = os.getenv('OPENWEATHERMAP_API_KEY')
+OPENWEATHERMAP_API_KEY = os.getenv('POWERLINE_OPENWEATHERMAP_API_KEY')
 
 temp_units_names = {
     'C': 'metric',
